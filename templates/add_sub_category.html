@@ -5,7 +5,7 @@
   <div class="page-head_agile_info_w3l inner-contact-page">
     <div class="container py-5">
       <h3 class="title-style text-white pt-5">Contact with <span>Us</span></h3>
-      <ul class="w3_short pt-3 pb-5">
+      <ul class="w3_short pt-3 pb-5">s
         <li>
           <a href="/" class="text-white">Home</a>
           <i class="fa fa-angle-right mx-2 text-white" aria-hidden="true"></i>
@@ -25,7 +25,7 @@
   </div>
   <!-- contact page -->
   <section class="w3l-contact py-5" id="contact">
-    <h1 class="text-center font-weight-bold">Add Product Details</h1>
+    <h1 class="text-center font-weight-bold">Add Sub Category</h1>
     <div class="container py-md-5 py-4">
       <div class="mx-auto pt-lg-4 pt-md-5 pt-4" style="max-width:1000px">
         <div class="contact-block">
@@ -34,27 +34,11 @@
               {% csrf_token %}
               <div class="information-wrapper">
                 <select name="" id="" class="contact-input">
-                  <option value="">Available</option>
+                  <option value=""></option>
                 </select>
               </div>
               <div class="input-grids">
-                <input type="text" name="product-name" id="w3lName" placeholder="Product Name" class="contact-input" required="" />
-              </div>
-              <div class="form-input">
-                <textarea name="product-description" id="w3lMessage" placeholder="Product Description" required="" rows="30"></textarea>
-              </div>
-              <div class="input-grids">
-                <input type="number" name="product-price" id="w3lName" placeholder="Product Price" class="contact-input" required="" />
-              </div>
-              <div class="input-grids">
-                <input type="number" name="product-quantiyt" id="w3lName" placeholder="Product Qauntity" class="contact-input" required="" />
-              </div>
-              <div class="information-wrapper">
-                <select name="product-status" id="" class="contact-input">
-                  <option value="" selected disabled>Product Status</option>
-                  <option value="">Available</option>
-                  <option value="">Unavailable</option>
-                </select>
+                <input type="text" name="product-name" id="w3lName" placeholder="Enter Sub Category" class="contact-input" required="" />
               </div>
               <button class="btn btn-style">Save</button>
             </form>

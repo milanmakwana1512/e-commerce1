@@ -100,16 +100,26 @@ class Sub_Category(models.Model):
 
 class Product(models.Model):
 
+    product_status = (("Available", "Available"), ("Unavailable", "Unavailable"))
     Sub_Category = models.ForeignKey(Sub_Category, on_delete=models.CASCADE)
     Product_Name = models.CharField(max_length=300)
-    Product_Description = models.TextField(null=True)
-    Product_Image = models.ImageField(upload_to="photos")
+    Product_Description = TextField(null=True)
+    Product_Image_1 = models.ImageField(upload_to="photos", null=True)
+    Product_Image_2 = models.ImageField(upload_to="photos", null=True)
+    Product_Image_3 = models.ImageField(upload_to="photos", null=True)
     Product_Quantity = models.IntegerField()
+    Product_Offers = TextField(null=True)
     Product_Price = models.IntegerField()
-    Product_Status = models.CharField(max_length=20)
+    Product_Status = models.CharField(max_length=20, choices=product_status)
 
-    def Product_Photo(self):
-        return mark_safe('<img src="{}" width="100"/>'.format(self.Product_Image.url))
+    def Product_Photo_1(self):
+        return mark_safe('<img src="{}" width="100"/>'.format(self.Product_Image_1.url))
+
+    def Product_Photo_2(self):
+        return mark_safe('<img src="{}" width="100"/>'.format(self.Product_Image_2.url))
+
+    def Product_Photo_3(self):
+        return mark_safe('<img src="{}" width="100"/>'.format(self.Product_Image_3.url))
 
 
 class Cart(models.Model):
@@ -120,7 +130,7 @@ class Cart(models.Model):
     Product_Id = models.ForeignKey(Product, on_delete=models.CASCADE)
     Cart_Quantity = models.IntegerField()
     Total_Amount = models.FloatField(null=True)
-    Cart_Status = models.CharField(max_length=20, choices=cart_status,null=True)
+    Cart_Status = models.CharField(max_length=20, choices=cart_status, null=True)
 
 
 class Order(models.Model):

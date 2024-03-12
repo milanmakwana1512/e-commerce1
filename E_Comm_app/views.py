@@ -15,10 +15,14 @@ def home(request):
     category = Category.objects.all()
     sub_category = Sub_Category.objects.all()
 
-    context = {"m_category": main_category, 
-               "cat": category, "s_category": sub_category
-               }
+    fetch_product = Product.objects.all()
+
+    context = {"m_category": main_category, "cat": category, "s_category": sub_category,"Product_data":fetch_product}
     return render(request, "index.html", context)
+
+
+# def home(request):
+#     return render(request,"index.html")
 
 
 def register(request):
@@ -27,6 +31,11 @@ def register(request):
         password = request.POST.get("Password")
         name = request.POST.get("Name")
         role = request.POST.get("role")
+
+        if User.objects.filter(Email_id=email).exists():
+            Error = messages.error(request, f"{email} is Already Exists")
+            context = {"error": Error}
+
         user_info = User(Email_id=email, Password=password, Name=name, Role=role)
         user_info.save()
         messages.success(request, "Registration Successfully")
@@ -53,20 +62,67 @@ def check_login(request):
         messages.info(request, "Account does not exist!! Please sign in")
 
 
+
 def logout(request):
     try:
         del request.session["u_email"]
         del request.session["u_id"]
 
-        messages.success(request,"Logout Successfully")
+        messages.success(request, "Logout Successfully")
     except:
         pass
     return redirect(home)
 
+
+def add_main_cat(request):
+    if request.method == "POST":
+        add_main_cat = request.POST.get("m-cat")
+        m_cat_info = Main_Category(Main_Category_Name=add_main_cat)
+        m_cat_info.save()
+        return redirect(add_cat)
+    return render(request, "add_main_category.html")
+
+
+def add_cat(request):
+    main_cat = Main_Category.objects.all()
+
+    if request.method == "POST":
+        category_name = request.POST.get("cat")
+        main_category_name = request.POST.get("main-cat")
+        
+        # Retrieve the Main_Category instance
+        main_category_instance = Main_Category.objects.get(Main_Category_Name=main_category_name)
+        
+        # Create and save the Category instance associated with the Main_Category
+        cat_info = Category(Category_Name=category_name, Main_Category=main_category_instance)
+        cat_info.save()
+
+    context = {"m_cat": main_cat}
+    return render(request, "add_category.html", context)
+
+
+def add_sub_cat(request):
+    return render(request, "add_sub_category.html")
+
+
 def Add_product(request):
-    return render(request,"Add_product.html")
+    if request.method == "POST":
+        product_img_1 = request.POST.FILES("product-img-1")
+        product_img_2 = request.POST.FILES("product-img-2")
+        product_img_3 = request.POST.FILES("product-img-3")
+        product_name = request.POST.get("product-name")
+        product_description = request.POST.get("product-description")
+        product_quantity = request.POST.get("product-quantity")
+        product_price = request.POST.get("product-price")
+        product_status = request.POST.get("product-status")
 
+        product_query = ()
+    return render(request, "Add_product.html")
 
+def addtocart(request):
+    login_id=request.session["u_id"]
+    Product_id=request.POST.get("")
+    return redirect()
 def about(request):
     return render(request, "about.html")
 
@@ -84,6 +140,8 @@ def checkout(request):
 
 
 def contact(request):
+    login_id=request.session['u_id']
+    product_id=request.POST.get
     return render(request, "contact.html")
 
 
@@ -115,8 +173,9 @@ def product_2(request):
     return render(request, "product2.html")
 
 
-def single(request):
-    return render(request, "single.html")
+def single(request,pid):
+    fetch_product_details=Product.objects.get(id=pid)
+    return render(request, "single.html",{"Product_data":fetch_product_details})
 
 
 def single_2(request):
@@ -125,3 +184,6 @@ def single_2(request):
 
 def terms(request):
     return render(request, "terms.html")
+
+def feedback(request):
+    return render(request, 'feedback.html')
